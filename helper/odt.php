@@ -1,12 +1,12 @@
 <?php
 /**
- * ODT (Open Document format) export for Exttab3 plugin
+ * ODT (Open Document format) export for Extab4 plugin
  * 
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * @author     Lars (LarsDW223)
  * @author     Thomas Schäfer <thomas.schaefer@itschert.net>
  */
-class helper_plugin_exttab3_odt extends DokuWiki_Plugin
+class helper_plugin_extab4_odt extends DokuWiki_Plugin
 {
     public function render(Doku_Renderer $renderer, $data)
     {
@@ -126,5 +126,7 @@ class helper_plugin_exttab3_odt extends DokuWiki_Plugin
                 }
                 break;
         }
+
+        return true;
     }
 }

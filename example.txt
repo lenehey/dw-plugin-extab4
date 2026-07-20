@@ -1,5 +1,5 @@
 ====== Examples for the Extended Table ======
-[[doku>plugin:exttab3]]
+[[https://github.com/lenehey/dw-plugin-extab4|Extended Table Syntax 4]]
   * http://www.mediawiki.org/wiki/Help:Tables
   * http://meta.wikimedia.org/wiki/Help:Table
 

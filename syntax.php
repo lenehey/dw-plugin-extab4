@@ -1,13 +1,13 @@
 <?php
 /**
- * DokuWiki Plugin ExtTab3 (Syntax component)
+ * DokuWiki Plugin Extab4 (Syntax component)
  *
  * Allows extended (MediaWiki-style) tables inside DokuWiki
  *
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * @author     Satoshi Sahara <sahara.satoshi@gmail.com>
  */
-class syntax_plugin_exttab3 extends DokuWiki_Syntax_Plugin
+class syntax_plugin_extab4 extends DokuWiki_Syntax_Plugin
 {
     public function getType()
     {   // Syntax Type
@@ -103,7 +103,7 @@ class syntax_plugin_exttab3 extends DokuWiki_Syntax_Plugin
     protected function close($tag, $pos, $match, $handler)
     {
       //$this->writeCall($tag,'',DOKU_LEXER_EXIT, $pos,$match,$handler);
-        $match = array(DOKU_LEXER_EXIT, $tag, $attr);
+        $match = array(DOKU_LEXER_EXIT, $tag, '');
         $handler->plugin($match, 'addPluginCall', $pos, $this->getPluginName());
     }
 
@@ -149,21 +149,21 @@ class syntax_plugin_exttab3 extends DokuWiki_Syntax_Plugin
      */
     private function appendClass($class, $attr)
     {
-        $regex = "/\b(?:class=\")(.*?\b($class)?\b.*?)\"/";
-        preg_match($regex, $attr, $matches);
-        if ($matches[2]) {
-            // $class found in the class attribute
-            return $attr;
-        } elseif (empty($matches[0])) {
+        $regex = '/\bclass\s*=\s*(["\'])(.*?)\1/i';
+        if (preg_match($regex, $attr, $matches) !== 1) {
             // class attribute is not specified
-            return $attr.' class="'.$class.'"';
-        } else {
-            // class attribute is specified, but include $class
-            $items = explode(' ',$matches[1]);
-            $items[] = $class;
-            $replace = '$class="'.implode(' ',$items).'"';
-            return str_replace($matches[0], $replace, $attr);
+            return rtrim($attr).' class="'.$class.'"';
         }
+
+        $items = preg_split('/\s+/', trim($matches[2]), -1, PREG_SPLIT_NO_EMPTY);
+        if (in_array($class, $items, true)) {
+            // class already exists in the class attribute
+            return $attr;
+        }
+
+        $items[] = $class;
+        $replace = 'class='.$matches[1].implode(' ', $items).$matches[1];
+        return preg_replace($regex, $replace, $attr, 1);
     }
 
 
@@ -295,7 +295,7 @@ class syntax_plugin_exttab3 extends DokuWiki_Syntax_Plugin
                 return $this->render_xhtml($renderer, $data);
             case 'odt'   :
             case 'odt_pdf':
-                $odt = $this->loadHelper('exttab3_odt');
+                $odt = $this->loadHelper('extab4_odt');
                 return $odt->render($renderer, $data);
             default:
                 return false;
@@ -306,7 +306,7 @@ class syntax_plugin_exttab3 extends DokuWiki_Syntax_Plugin
     {
         // prepare class properties
         isset($this->tagsmap) || $this->setTagsmap();
-        isset($this->attrmap) || $this->setAllowedAttributes();
+        isset($this->attrsmap) || $this->setAllowedAttributes();
 
         list($state, $tag, $attr) = $data;
 
@@ -418,7 +418,7 @@ class syntax_plugin_exttab3 extends DokuWiki_Syntax_Plugin
      * some safe stuff, but better safe than sorry.)
      * NOTE: Attribute values MUST be in quotes now.
      */
-    protected function cleanAttrString($attr = '', $allowed_keys)
+    protected function cleanAttrString($attr, $allowed_keys)
     {
         if (is_null($attr)) return null;
 
