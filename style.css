@@ -1,0 +1,12 @@
+/**
+ * Browser styles for tables rendered by the extab4 syntax plugin.
+ */
+.dokuwiki table.inline.exttable td {
+    vertical-align: middle;
+    text-align: left;
+}
+
+.dokuwiki table.inline.exttable th {
+    vertical-align: middle;
+    text-align: center;
+}
