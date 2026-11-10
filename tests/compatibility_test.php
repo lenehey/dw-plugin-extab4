@@ -16,6 +16,11 @@ class DokuWiki_Syntax_Plugin
     {
         return 'extab4';
     }
+
+    public function accepts($mode)
+    {
+        return true;
+    }
 }
 
 class Doku_Handler
@@ -41,8 +46,19 @@ function assertSameValue($expected, $actual, $message)
 }
 
 $plugin = new syntax_plugin_extab4();
+
+assertSameValue(
+    false,
+    $plugin->accepts('gfm_table'),
+    'The GFM table parser must not consume extab4 row delimiters.'
+);
+assertSameValue(
+    true,
+    $plugin->accepts('gfm_listblock'),
+    'Other nested container modes should remain available.'
+);
+
 $appendClass = new ReflectionMethod($plugin, 'appendClass');
-$appendClass->setAccessible(true);
 
 assertSameValue(
     ' style="width: 100%" class="exttable"',
@@ -62,7 +78,6 @@ assertSameValue(
 
 $handler = new Doku_Handler();
 $close = new ReflectionMethod($plugin, 'close');
-$close->setAccessible(true);
 $close->invoke($plugin, 'td', 42, '|}', $handler);
 
 assertSameValue(

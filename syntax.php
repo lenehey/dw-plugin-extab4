@@ -74,6 +74,13 @@ class syntax_plugin_extab4 extends DokuWiki_Syntax_Plugin
     public function accepts($mode)
     {   // plugin accepts its own entry syntax
         if ($mode == $this->mode) return true;
+
+        // In DokuWiki Mort's mixed Markdown modes, the GFM table parser sees
+        // an extab4 row marker ("|-") as a Markdown delimiter row and consumes
+        // the rest of the extended table. An active extab4 table must retain
+        // ownership of its own cell and row delimiters.
+        if ($mode == 'gfm_table') return false;
+
         return parent::accepts($mode);
     }
 
