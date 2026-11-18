@@ -20,6 +20,26 @@ Compatibility fixes
 * Handles missing or existing HTML `class` attributes without undefined-array-key warnings.
 * Avoids PHP 8's optional-before-required parameter compatibility issue.
 
+Authorship and acknowledgments
+-----------------------------
+
+Extended Table Syntax 4 (extab4) is maintained by **lenehey**. It is a
+compatibility fork of **Extended Table Syntax 3 (exttab3)** by **Satoshi Sahara**;
+nearly all of the original implementation is his work. The extab4 maintenance
+work addresses PHP compatibility and integration issues while retaining the
+original table syntax and behavior.
+
+Thank you to Satoshi Sahara and the original plugin's contributors. The original
+source credits, copyright notices, and GPL version 2 license are preserved.
+
+* Original plugin: https://www.dokuwiki.org/plugin:exttab3
+* Upstream source: https://github.com/ssahara/dw-plugin-exttable
+* extab4 support and bug reports: https://github.com/lenehey/dw-plugin-extab4/issues
+
+The Extension Manager credit identifies both the fork's maintainer and the
+original author. Please report extab4 issues to the fork's issue tracker rather
+than to the upstream author's email address.
+
 Syntax
 ------
 

@@ -1,7 +1,7 @@
 base   extab4
-author Satoshi Sahara
-email  sahara.satoshi@gmail.com
-date   2026-11-10
+author lenehey (extab4 maintainer), Satoshi Sahara (exttab3 author)
+email
+date   2026-11-18
 name   Extended Table Syntax 4
 desc   PHP 8 compatible extended (MediaWiki-style) table syntax for DokuWiki
 url    https://github.com/lenehey/dw-plugin-extab4
